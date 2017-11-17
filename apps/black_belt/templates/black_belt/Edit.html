@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Edit</title>
+</head>
+<body>
+    <form action="/black_belt/edit/appointments/{{appointment.id}}" method="post">
+        {% csrf_token %}
+        Tasks: <input type="text" name="task" value="{{appointment.task}}" />
+        <br />
+        Status: <select name="status">
+            {% if appointment.status == 0 %}
+            <option name="status">Pending</option>
+            <option name="status">Done</option>
+            <option name="status">Missed</option>
+            {% elif appointment.status == 1 %}
+            <option name="status">Pending</option>
+            <option name="status">Done</option>
+            <option name="status">Missed</option>
+            {% else %}
+            <option name="status">Missed</option>
+            <option name="status">Pending</option>
+            <option name="status">Done</option>
+            {% endif %}
+        </select>
+        <br />
+        Date: <input type="date" name="date" value="{{appointment.date}}" />
+        <br />
+        Time: <input type="time" name="time" value="{{appointment.time}}" />
+        <br />
+        <input type="submit" value="Update" />
+    </form>
+    <br />
+    {% if messages %}
+    {% for message in messages %}
+    <p style="color: red">*{{message}}</p>
+    {% endfor %}
+    {% endif %}
+    <a href="/black_belt/logOut">Log Out</a>
+    <br />
+    <a href="/black_belt/appointments">Back To Dashboard</a>
+</body>
+</html>

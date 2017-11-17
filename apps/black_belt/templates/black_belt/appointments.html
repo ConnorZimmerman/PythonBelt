@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Appointments</title>
+</head>
+<body>
+    <h3>Hello, {{user.first_name}}!</h3>
+    {% if appointment.time > today %}
+    <p>Future Appointments</p>
+    <table>
+        <tr>
+            <th>Tasks</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>
+        {% for message in appointments %}
+        <tr>
+            <td>{{message.task}}</td>
+            <td>{{message.time}}</td>
+            <td>{{message.date}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>Here's your appointments as of today, {{time}}:</p>
+    <table>
+        <tr>
+            <th>Tasks</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    {% for message in appointments %}
+    <tr>
+        <td>{{message.task}}</td>
+        <td>{{message.time}}</td>
+        {% if message.status == 0 %}
+        <td>Pending</td>
+        <td><a href="/black_belt/appointments/{{message.id}}">edit</a> <a href="/black_belt/remove/{{message.id}}">remove</a></td>
+        {% elif message.status == 1 %}
+        <td>Done</td>
+        {% else %}
+        <td>Missed</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+    </table>
+    {% endif %}
+    <br />
+    <h4>Add Appointment</h4>
+    <form action="/black_belt/add_appointment" method="post">
+        {% csrf_token %}
+        Date: <input type="date" name="date" />
+        <br />
+        Time: <input type="time" name="time" />
+        <br />
+        Tasks: <input type="text" name="task" />
+        <br />
+        <input type="submit" value="Add"/>
+    </form>
+    {% if messages %}
+    {% for message in messages %}
+    <p style="color: red">*{{message}}</p>
+    {% endfor %}
+    {% else %}
+    {% endif %}
+    <br />
+    <a href="/black_belt/logOut">Log Out</a>
+</body>
+</html>
